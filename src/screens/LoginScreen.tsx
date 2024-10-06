@@ -62,7 +62,7 @@ const handleSignIn=async()=>{
 }
   return (
     <ImageBackground
-    source={require('../theme/perfume.jpg')}
+    source={require('../image/perfume.jpg')}
     style={styles.background}>
       <View style={styles.container}>
         <Text style={styles.title}>Iniciar Sesión</Text>
