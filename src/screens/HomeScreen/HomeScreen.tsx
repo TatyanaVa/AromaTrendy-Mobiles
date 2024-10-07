@@ -2,22 +2,23 @@ import React, { useEffect, useState } from "react";
 import { FlatList, ImageBackground, View } from "react-native";
 import {Avatar, Button,Divider,FAB,IconButton,Modal,Portal,Text,TextInput,} from "react-native-paper";
 import { styles } from "../../theme/styles";
-import { auth } from "../../config/firebaseConfig";
+import { auth, dbRealTime } from '../../config/firebaseConfig';
 import firebase, { updateProfile } from "@firebase/auth";
 import { ProductCardComponent } from "./components/ProductCardComponent";
 import { NewProductComponent } from "./components/NewProductComponent";
+import { onValue, ref } from "firebase/database";
 
 interface FormUser {
   name: string;
 }
 
-interface Product{
+export interface Product{
   id:string;
   code:string,
   nameProduct:string,
   price:number,
   stock:number,
-  desciption:string,
+  description:string,
 }
 
 export const HomeScreen = () => {
@@ -27,20 +28,7 @@ export const HomeScreen = () => {
 
   const [userData, setUserData] = useState<firebase.User | null>(null);
 
-  const [products, setProducts] = useState<Product[]>([
-    {id:'1',
-      code:'5414561', 
-      nameProduct:'Aron',
-      price:45,
-      stock:4,
-      desciption:'Dulce aroma'},
-      {id:'2',
-        code:'868528', 
-        nameProduct:'Vivtoria Secret',
-        price:45,
-        stock:4,
-        desciption:'Dulce aroma'},
-  ]);
+  const [products, setProducts] = useState<Product[]>([]);
 
   const [showModalProfile, setShowModalProfile] = useState<boolean>(false);
 
@@ -48,7 +36,8 @@ export const HomeScreen = () => {
 
   useEffect(() => {
     setUserData(auth.currentUser);
-    setFormUser({ name: auth.currentUser?.displayName ?? "" });
+    setFormUser({ name: auth.currentUser?.displayName ?? "" })
+    getAllProducts();
   }, []);
 
   const handelSetValues = (key: string, value: string) => {
@@ -64,6 +53,19 @@ export const HomeScreen = () => {
     setShowModalProfile(false);
   };
 
+  const getAllProducts=()=>{
+    const dbRef=ref(dbRealTime,'products');
+    onValue(dbRef,(snapshot)=>{
+      const data=snapshot.val();
+      const getKeys=Object.keys(data);
+      const listProduct:Product[]=[];
+      getKeys.forEach((key)=>{
+        const value={...data[key],id:key}
+        listProduct.push(value);
+      });
+      setProducts(listProduct);
+    })
+  }
   return (
     <>
       <View style={styles.avatar}>
@@ -88,7 +90,7 @@ export const HomeScreen = () => {
         <View>
         <FlatList
         data={products}
-        renderItem={({item}) => <ProductCardComponent/>}
+        renderItem={({item}) => <ProductCardComponent product={item}/>}
         keyExtractor={item => item.id}
       />
         </View>

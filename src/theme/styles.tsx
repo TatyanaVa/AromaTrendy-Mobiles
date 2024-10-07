@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, ImageBackground } from 'react-native';
 
 export const styles=StyleSheet.create({
     root:{
@@ -77,7 +77,8 @@ export const styles=StyleSheet.create({
       icon:{
         alignItems:"flex-end",
         flex:1
-      },iconProfile:{
+      },
+      iconProfile:{
         alignItems:"flex-end",
         flex:1
       },
@@ -112,6 +113,7 @@ export const styles=StyleSheet.create({
       buttonProfile: {
         marginTop: 10,
         backgroundColor: '#9400D3',
+        
       },
       imageProfile: {
         flex: 1,
@@ -127,6 +129,7 @@ export const styles=StyleSheet.create({
         gap:10,
         marginBottom: 20,
         borderRadius: 10,  
+
       },
       rootListProduct:{
         flexDirection:'row',
@@ -143,5 +146,33 @@ export const styles=StyleSheet.create({
       rootInputsProducto:{
         flexDirection:'row',
         gap:35
-      }
+      },
+      titleDetail: {
+        fontSize: 22,
+        color: '#F5FFFA',
+        
+        fontWeight: 'bold',
+        marginBottom: 20,
+        textAlign: 'justify',
+      },
+      rootDetail:{
+        flex:1,
+        marginTop:20,
+        padding:20,
+        gap:35,
+        backgroundColor:'#FF1493',
+ 
+      },
+      containerDetail: {
+        padding: 15,
+        backgroundColor: '#EE82EE', 
+        borderRadius: 20,
+        marginBottom: 10,
+        elevation: 25,               
+    },
+    buttonDetail: {
+      marginTop: 10,
+      backgroundColor: '#F5F5F5',
+      
+    },
 })

@@ -9,10 +9,12 @@ import { auth } from '../config/firebaseConfig';
 import { View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import { styles } from '../theme/styles';
+import { DetailProductScreen } from '../screens/DetailProductScreen';
 
 interface Routes{
   name:string;
   screen:()=> JSX.Element;
+  headerShow?:boolean;
 } 
 
 const routeNoAuth: Routes[]=[
@@ -20,9 +22,10 @@ const routeNoAuth: Routes[]=[
   {name:'Register',screen:RegistroScreen}
 ];
 
-const routesAuth:Routes[]=[{
-  name:'Home',screen:HomeScreen
-}];
+const routesAuth:Routes[]=[
+  {name:'Home',screen:HomeScreen},
+  {name:'Detail',screen:DetailProductScreen,headerShow:true}
+];
 
 const Stack = createStackNavigator();
 
@@ -66,7 +69,7 @@ export const StackNavigator=()=> {
         routesAuth.map((item,index)=>(
           <Stack.Screen key={index}
           name={item.name} 
-          options={{headerShown:false}} 
+          options={{headerShown:item.headerShow ?? false}} 
           component={item.screen} />
         ))
       }
